@@ -1,0 +1,972 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block title%}위생허가{% endblock title %}
+{% block extra_css %}
+  <!-- jsvectormap css -->
+  <link href="{% static 'libs/jsvectormap/css/jsvectormap.min.css'%}" rel="stylesheet" type="text/css"/>
+
+  <!--Swiper slider css-->
+  <link href="{% static 'libs/swiper/swiper-bundle.min.css'%}" rel="stylesheet" type="text/css"/>
+
+  <!-- dropzone css -->
+  <link rel="stylesheet" href="{% static 'libs/dropzone/dropzone.css'%}" type="text/css"/>
+
+  <!-- Filepond css -->
+  <link rel="stylesheet" href="{% static 'libs/filepond/filepond.min.css'%}" type="text/css"/>
+  <link rel="stylesheet" href="{% static 'libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.css'%}">
+
+  <!-- gridjs css -->
+  <link rel="stylesheet" href="{% static 'libs/gridjs/theme/mermaid.min.css' %}">
+
+{% endblock extra_css %}
+{% block content %}
+  <!-- ============================================================== -->
+  <!-- Start right Content here -->
+  <!-- ============================================================== -->
+  <div class="main-content">
+    <div class="page-content">
+      <div class="container-fluid">
+        {% block pagetitle %}
+          {% include "partials/page-title.html" with title="위생허가 스크리닝" %}
+        {% endblock pagetitle %}
+
+        {% comment %} <div class="row">
+          <div class="col-lg-12">
+            <!-- Nav tabs -->
+            <ul class="nav nav-pills nav-primary mb-3" role="tablist">
+              <li class="nav-item waves-effect waves-light">
+                  <a class="nav-link active" data-bs-toggle="tab" href="#home-1" role="tab">위생허가 스크리닝</a>
+              </li>
+              <li class="nav-item waves-effect waves-light">
+                  <a class="nav-link" data-bs-toggle="tab" href="#profile-1" role="tab">DB 검색기</a>
+              </li>
+            </ul>
+          </div>
+        </div> {% endcomment %}
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">위생허가 스크리닝 실시</h4>
+                <div>
+                  <button type="button" class="btn btn-primary btn-md">
+                    스크리닝 결과 다운로드
+                  </button>
+                  <button type="button" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target=".dbSearchListModal">
+                    DB 검색기
+                  </button>
+                </div>
+              </div>
+              <!-- end card header -->
+
+              <div class="card-body">
+                <input type="file" class="filepond filepond-input-multiple" multiple="multiple" name="filepond" data-allow-reorder="true" data-max-file-size="15MB" data-max-files="1">
+              </div>
+              <!-- end card body -->
+            </div>
+            <!-- end card -->
+          </div>
+          <!-- end col -->
+        </div>
+        <!-- end row -->
+
+        <div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1">
+          <div class="col">
+            <div class="card py-2 px-1 ribbon-box ribbon-fill ribbon-sm card-animate">
+              <div class="ribbon ribbon-danger d-none">
+              </div>
+                <div class="card-body d-flex">
+                    <div class="flex-grow-1 px-2" style="margin-top: 12px;">
+                      <h6 class="text-black fs-15 mb-2">기본정보 오류 
+                        <span class="badge fs-12 rounded-pill align-middle mb-1 text-bg-light text-muted tippy_test">설명</span>
+                      </h6>
+                        <h4 class="text-muted mb-0">4751</h4>
+                    </div>
+                    <div class="flex-shrink-0 avatar-md ">
+                        <div class="avatar-title bg-soft-info text-info fs-22 rounded">
+                            <i class="las la-file-alt display-6"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+          <div class="card py-2 px-1 ribbon-box ribbon-fill ribbon-sm card-animate">
+            <div class="ribbon ribbon-danger">
+            </div>
+              <div class="card-body d-flex">
+                  <div class="flex-grow-1 px-2" style="margin-top: 12px;">
+                    <h6 class="text-black fs-15 mb-2">완료비중 오류 <span class="badge fs-12 rounded-pill align-middle text-bg-light text-muted mb-1">설명</span>
+                    </h6>
+                      <h5 class="mb-0 text-danger">문제 있음</h5>
+                  </div>
+                  <div class="flex-shrink-0 avatar-md">
+                      <div class="avatar-title bg-soft-success text-success fs-22 rounded">
+                          <i class="las la-flask display-6"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="col">
+        <div class="card py-2 px-1 ribbon-box ribbon-fill ribbon-sm card-animate">
+          <div class="ribbon ribbon-danger d-none">
+          </div>
+            <div class="card-body d-flex">
+                <div class="flex-grow-1 px-2" style="margin-top: 12px;">
+                  <h6 class="text-black fs-15 mb-2">위생허가 규제 오류 <span class="badge fs-12 rounded-pill align-middle text-bg-light text-muted mb-1">설명</span></h6>
+                    <h5 class="text-success mb-0">문제 없음</h5>
+                </div>
+                <div class="flex-shrink-0 avatar-md">
+                    <div class="avatar-title bg-soft-primary text-primary fs-22 rounded">
+                        <i class="las la-certificate display-6"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+      <div class="card py-2 px-1 ribbon-box ribbon-fill ribbon-sm card-animate">
+        <div class="ribbon ribbon-danger">
+        </div>
+          <div class="card-body d-flex">
+              <div class="flex-grow-1 px-2" style="margin-top: 12px;">
+                <h6 class="text-black fs-15 mb-2">통관위험 <span class="badge fs-12 rounded-pill align-middle text-bg-light text-muted mb-1">설명</span></h6>
+                  <h4 class="text-danger mb-0">2</h4>
+              </div>
+              <div class="flex-shrink-0 avatar-md">
+                  <div class="avatar-title bg-soft-danger text-danger fs-22 rounded">
+                      <i class="las la-stamp display-6"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+  <div class="col">
+    <div class="card py-2 px-1 ribbon-box ribbon-fill ribbon-sm card-animate ">
+      <div class="ribbon ribbon-danger d-none">
+      </div>
+        <div class="card-body d-flex">
+            <div class="flex-grow-1 px-2" style="margin-top: 12px;">
+              <h6 class="text-black fs-15 mb-2">마케팅 리스크 <span class="badge fs-12 rounded-pill align-middle text-bg-light text-muted mb-1">설명</span></h6>
+                <h4 class="text-muted mb-0">0</h4>
+            </div>
+            <div class="flex-shrink-0 avatar-md">
+                <div class="avatar-title bg-soft-warning text-warning fs-22 rounded">
+                    <i class="las la-mobile display-6"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+          
+        </div>
+        <!--end row-->
+
+        <div class="row">
+          <!-- 좌측 박스 -->
+          <div class="col-xl-6">
+            <div class="card">
+              <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">파일 정보 확인 <span class="badge fs-12 rounded-pill align-middle mb-1 text-bg-light text-muted tippy_test">설명</span></h4>
+                <div>
+                  <button type="button" class="btn btn-soft-danger btn-sm">
+                    오류
+                  </button>
+                  <button type="button" class="btn btn-soft-success btn-sm">
+                    정상
+                  </button>
+                  <button type="button" class="btn btn-soft-primary btn-sm">
+                    전체
+                  </button>
+                </div>
+              </div>
+              <!-- end card header -->
+              
+              <div class="card-body">
+                <div class="table-responsive table-card custom-td">
+                  <table class="table align-middle table-nowrap mb-0">
+                    <thead class="table-light">
+                      <tr class="text-muted">
+                        <th scope="col" style="width:40%" class="strong">항목</th>
+                        <th scope="col" style="width:10%" class="strong text-center">오류 여부</th>
+                        <th scope="col" style="width:40%;border-left:1px solid var(--vz-border-color);" class="strong">항목</th>
+                        <th scope="col" style="width:10%" class="strong text-center">오류 여부</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div>
+                            <h5 class="fs-13 mb-0 text-primary">순번</h5>
+                            <p class="fs-12 mb-0 text-muted">序号</p>
+                          </div>
+                        </td>
+                        <td>
+                          <h6 class="mb-0 text-center">
+                            <span class="text-muted"><span class="badge fs-12 badge-soft-success">정상</span></span>
+                          </h6>
+                        </td>
+                        <td style="border-left:1px solid var(--vz-border-color);">
+                          <h5 class="fs-13 mb-0 text-primary">Korean Name</h5>
+                          <p class="fs-12 mb-0 text-muted">标准韩文名称</p>
+                        </td>
+                        <td style="width:5%;">
+                          <h6 class="mb-0 text-center">
+                            <span class="text-muted"><span class="badge fs-12 badge-soft-danger">오류</span></span>
+                          </h6>
+                        </td>
+                      </tr>
+                      <!-- end tr -->
+                      <tr>
+                        <td>
+                          <div>
+                            <h5 class="fs-13 mb-0 text-primary">Chinese Name</h5>
+                            <p class="fs-12 mb-0 text-muted">标准中文名称</p>
+                          </div>
+                        </td>
+                        <td>
+                          <h6 class="mb-0 text-center">
+                            <span class="text-muted"><span class="badge fs-12 badge-soft-success">정상</span></span>
+                          </h6>
+                        </td>
+                        <td style="border-left:1px solid var(--vz-border-color);">
+                          <h5 class="fs-13 mb-0 text-primary">INCI</h5>
+                          <p class="fs-12 mb-0 text-muted">INCI名</p>
+                        </td>
+                        <td>
+                          <h6 class="mb-0 text-center">
+                            <span class="text-muted"><span class="badge fs-12 badge-soft-success">정상</span></span>
+                          </h6>
+                        </td>
+                      </tr>
+                      <!-- end tr -->
+                      <tr>
+                        <td>
+                          <div>
+                            <h5 class="fs-13 mb-0 text-primary">RM or ingredient % in fla</h5>
+                            <p class="fs-12 mb-0 text-muted">原料含量(%)</p>
+                          </div>
+                        </td>
+                        <td>
+                          <h6 class="mb-0 text-center">
+                            <span class="text-muted"><span class="badge fs-12 badge-soft-success">정상</span></span>
+                          </h6>
+                        </td>
+                        <td style="border-left:1px solid var(--vz-border-color);">
+                          <h5 class="fs-13 mb-0 text-primary">ingredient % in RM</h5>
+                          <p class="fs-12 mb-0 text-muted">原料中成份含量(%)</p>
+                        </td>
+                        <td>
+                          <h6 class="mb-0 text-center">
+                            <span class="text-muted"><span class="badge fs-12 badge-soft-danger">오류</span></span>
+                          </h6>
+                        </td>
+                      </tr>
+                      <!-- end tr -->
+                      <tr>
+                        <td>
+                          <div>
+                            <h5 class="fs-13 mb-0 text-primary">Actual Wt(%)</h5>
+                            <p class="fs-12 mb-0 text-muted">实际成份含量（%）</p>
+                          </div>
+                        </td>
+                        <td>
+                          <h6 class="mb-0 text-center">
+                            <span class="text-muted"><span class="badge fs-12 badge-soft-success">정상</span></span>
+                          </h6>
+                        </td>
+                        <td style="border-left:1px solid var(--vz-border-color);">
+                          <h5 class="fs-13 mb-0 text-primary">Ingredient function</h5>
+                          <p class="fs-12 mb-0 text-muted">使用目的</p>
+                        </td>
+                        <td>
+                          <h6 class="mb-0 text-center">
+                            <span class="text-muted"><span class="badge fs-12 badge-soft-success">정상</span></span>
+                          </h6>
+                        </td>
+                      </tr>
+                      <!-- end tr -->
+                      <tr>
+                        <td>
+                          <div>
+                            <h5 class="fs-13 mb-0 text-primary">CAS NO.</h5>
+                            <p class="fs-12 mb-0 text-muted">标准中文名称</p>
+                          </div>
+                        </td>
+                        <td>
+                          <h6 class="mb-0 text-center">
+                            <span class="text-muted"><span class="badge fs-12 badge-soft-success">정상</span></span>
+                          </h6>
+                        </td>
+                        <td style="border-left:1px solid var(--vz-border-color);">
+                          <div>
+                            <h5 class="fs-13 mb-0"></h5>
+                            <p class="fs-12 mb-0 text-muted"></p>
+                          </div>
+                        </td>
+                        <td>
+                          <h6 class="mb-0 text-center">
+                            <span class="text-muted"></span>
+                          </h6>
+                        </td>
+                      </tr>
+                      <!-- end tr -->
+                    </tbody>
+                    <!-- end tbody -->
+                  </table>
+                  <!-- end table -->
+                </div>
+              </div>
+
+              <div class="card-footer mt-0">
+                <div class="table-responsive table-card custom-td">
+                  <table class="table align-middle table-nowrap mb-0">
+                    <tbody>
+                      <tr>
+                        <td style="width:50%;border-right:1px solid var(--vz-border-color);">
+                          <div>
+                            <h5 class="fs-13 mb-0">파일명</h5>
+                            <p class="fs-12 mb-0 text-muted">xxxxxxx</p>
+                          </div>
+                        </td>
+                        <td style="width:50%">
+                          <div>
+                            <h5 class="fs-13 mb-0">업로드한 원료 수</h5>
+                            <p class="fs-12 mb-0 text-muted">50건</p>
+                          </div>
+                        </td>
+                      </tr>
+                      <!-- end tr -->
+                    </tbody>
+                    <!-- end tbody -->
+                  </table>
+                  <!-- end table -->
+                </div>
+            </div>
+
+              {% comment %} <div class="card-footer ">
+                <div class="d-flex justify-content-between border-bottom border-bottom-dashed py-2">
+                  <p class="fw-medium mb-0"><i class="ri-checkbox-blank-circle-fill text-success align-middle me-2"></i>
+                    파일명</p>
+                  <div>
+                      <span class="text-muted pe-5">xxxxx</span>
+                  </div>
+                </div>
+                  <div class="d-flex justify-content-between py-2">
+                    <p class="fw-medium mb-0"><i class="ri-checkbox-blank-circle-fill text-success align-middle me-2"></i>
+                      업로드한 원료 수</p>
+                    <div>
+                        <span class="text-muted pe-5">50 건</span>
+                    </div>
+                  </div>
+                <div class="fs-14">
+                  파일명:
+                  <span class="fw-medium text-muted">xxxxx</span>
+                </div>
+                <div class="fs-14">
+                  업로드한 원료 수:
+                  <span class="fw-medium text-muted">50건</span>
+                </div>
+              </div> {% endcomment %}
+
+            </div>
+            <!-- end card -->
+          </div>
+          <!-- end col -->
+
+          <!-- 우측 박스 -->
+          <div class="col-xl-6">
+            <div class="card">
+              <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">문제 관련 정보 <span class="badge fs-12 rounded-pill align-middle mb-1 text-bg-light text-muted tippy_test">설명</span></h4>
+                <div>
+                  <button type="button" class="btn btn-soft-danger btn-sm">
+                    오류
+                  </button>
+                  <button type="button" class="btn btn-soft-success btn-sm">
+                    정상
+                  </button>
+                  <button type="button" class="btn btn-soft-primary btn-sm">
+                    전체
+                  </button>
+                </div>
+              </div>
+              <!-- end card header -->
+
+              <div class="card-body">
+                <div id="probDataList" class="table-card"></div>
+              </div>
+              <div class="card-footer">
+                <div class="fs-14">
+                  첼린지 테스트 여부
+                  <span class="fw-medium text-danger">검토 필요</span>
+                </div>
+                <div class="fs-14">
+                  원료 사용목적 오류
+                  <span class="fw-medium text-muted">검토 필요 없음</span>
+                </div>
+              </div>
+
+            </div>
+            <!-- end card -->
+          </div>
+          <!-- end col -->
+
+        </div>
+        <!-- end row -->
+
+
+<div class="row">
+
+  <!-- 우측 박스 -->
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-header align-items-center d-flex">
+        <h4 class="card-title mb-0 flex-grow-1">스크리닝 결과 다운로드 <span class="badge fs-12 rounded-pill align-middle mb-1 text-bg-light text-muted tippy_test">설명</span></h4>
+      </div>
+      <!-- end card header -->
+      <div class="card-body">
+        {% comment %} <button type="button" class="btn btn-primary btn-label right"><i class="ri-user-smile-line label-icon align-middle fs-16 ms-2"></i> Primary</button> {% endcomment %}
+        <div class="d-grid"><button class="btn btn-primary" type="button">스크리닝 결과 다운로드</button></div>
+      </div>
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+
+
+</div>
+
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title mb-0">DB 목록 및 업데이트 일자</h4>
+              </div>
+              <!-- end card header -->
+
+              <div class="card-body">
+                <div id="dbUpdateList" class="table-card"></div>
+              </div>
+
+            </div>
+            <!-- end card -->
+          </div>
+          <!-- end col -->
+        </div>
+        <!-- end row -->
+
+        <!-- Full screen modal content -->
+        <div class="modal fade dbSearchListModal" tabindex="-1" aria-labelledby="dbSearchListModalLabel" aria-hidden="true" >
+          <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+              <div class="modal-header p-3">
+                <h5 class="modal-title" id="dbSearchListModalLabel">DB 검색</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="alert alert-success  rounded-0 mb-0">
+                <p class="mb-0">DB 검색 페이지
+                  <span class="fw-semibold">자체 DB</span>
+                  검색하는 페이지</p>
+              </div>
+              <div class="modal-body">
+                {% comment %} <h6 class="fs-15">Give your text a good structure</h6>
+                <div class="d-flex">
+                  <div class="flex-shrink-0">
+                    <i class="ri-checkbox-circle-fill text-success"></i>
+                  </div>
+                  <div class="flex-grow-1 ms-2">
+                    <p class="text-muted mb-0">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse.</p>
+                  </div>
+                </div>
+                <div class="d-flex mt-2">
+                  <div class="flex-shrink-0">
+                    <i class="ri-checkbox-circle-fill text-success"></i>
+                  </div>
+                  <div class="flex-grow-1 ms-2 ">
+                    <p class="text-muted mb-0">Too much or too little spacing, as in the example below, can make things unpleasant for the reader. The goal is to make your text as comfortable to read as possible.
+                    </p>
+                  </div>
+                </div>
+                <div class="d-flex mt-2">
+                  <div class="flex-shrink-0">
+                    <i class="ri-checkbox-circle-fill text-success"></i>
+                  </div>
+                  <div class="flex-grow-1 ms-2 ">
+                    <p class="text-muted mb-0">In some designs, you might adjust your tracking to create a certain artistic effect. It can also help you fix fonts that are poorly spaced to begin with.</p>
+                  </div>
+                </div>
+                <div class="d-flex mt-2">
+                  <div class="flex-shrink-0">
+                    <i class="ri-checkbox-circle-fill text-success"></i>
+                  </div>
+                  <div class="flex-grow-1 ms-2 ">
+                    <p class="text-muted mb-0">For that very reason, I went on a quest and spoke to many different professional graphic designers and asked them what graphic design tips they live.</p>
+                  </div>
+                </div>
+                <div class="d-flex mt-2">
+                  <div class="flex-shrink-0">
+                    <i class="ri-checkbox-circle-fill text-success"></i>
+                  </div>
+                  <div class="flex-grow-1 ms-2 ">
+                    <p class="text-muted mb-0">You've probably heard that opposites attract. The same is true for fonts. Don't be afraid to combine font styles that are different but complementary, like sans serif with serif, short with tall, or decorative with simple. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR.</p>
+                  </div>
+                </div>
+                <div class="d-flex mt-2">
+                  <div class="flex-shrink-0">
+                    <i class="ri-checkbox-circle-fill text-success"></i>
+                  </div>
+                  <div class="flex-grow-1 ms-2 ">
+                    <p class="text-muted mb-0">For that very reason, I went on a quest and spoke to many different professional graphic designers and asked them what graphic design tips they live.</p>
+                  </div>
+                </div> {% endcomment %}
+
+                <div class="row mt-1">
+                  <div class="col-lg-12">
+                    <div id="dbSearchList"></div>
+                  </div>
+                  <!-- end col -->
+                </div>
+                <!-- end row -->
+
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+      </div>
+      <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+  </div>
+  <!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+  <!-- apexcharts -->
+  <script src=" {% static 'libs/apexcharts/apexcharts.min.js'%} "></script>
+
+  <!-- Vector map-->
+  <script src=" {% static 'libs/jsvectormap/js/jsvectormap.min.js'%}"></script>
+  <script src="{% static 'libs/jsvectormap/maps/world-merc.js'%}"></script>
+
+  <!-- dropzone min -->
+  <script src="{% static 'libs/dropzone/dropzone-min.js'%}"></script>
+
+  <!-- filepond js -->
+  <script src="{% static 'libs/filepond/filepond.min.js'%}"></script>
+  <script src="{% static 'libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js'%}"></script>
+  <script src="{% static 'libs/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js'%}"></script>
+  <script src="{% static 'libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js'%}"></script>
+  <script src="{% static 'libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js'%}"></script>
+
+  <!-- gridjs js -->
+  <script src="{% static 'libs/gridjs/gridjs.umd.js' %}"></script>
+  <script>
+    window.onload = function () {
+
+      // FilePond
+      FilePond.registerPlugin(
+      // encodes the file as base64 data
+      FilePondPluginFileEncode,
+      // validates the size of the file
+      FilePondPluginFileValidateSize,
+      // corrects mobile image orientation
+      FilePondPluginImageExifOrientation,
+      // previews dropped images
+      FilePondPluginImagePreview);
+
+      var inputMultipleElements = document.querySelectorAll('input.filepond-input-multiple');
+      if (inputMultipleElements) {
+
+        // loop over input elements
+        Array
+          .from(inputMultipleElements)
+          .forEach(function (inputElement) { 
+            // create a FilePond instance at the input element location
+            FilePond.create(inputElement, {labelIdle: '파일을 드래그하거나 클릭해서 <span class="filepond--label-action">열기</span>'});
+          })
+
+      }
+      
+      function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+      }
+
+      var csrftoken = getCookie('csrftoken');
+
+      FilePond.setOptions({
+        server: {
+            url: '/fp',
+            headers: {
+              'X-CSRFToken': csrftoken
+            },
+            // process: '/process/',
+            // process: {
+            //     headers: {"X-CSRFToken":csrftoken,},
+            //     url: '/mscreening',
+            //     method: 'POST',
+            // },
+            process: {
+              url: '/process/',
+              method: 'POST',
+              headers: {
+                'X-CSRFToken': csrftoken
+              },
+              withCredentials: false,
+              onload: (response) => {
+                var httpRequest;
+                /* 입력된 데이터 Json 형식으로 변경 */
+                var reqJson = new Object();
+                reqJson.key = response;
+                /* 통신에 사용 될 XMLHttpRequest 객체 정의 */
+                httpRequest = new XMLHttpRequest();
+                /* httpRequest의 readyState가 변화했을때 함수 실행 */
+                  httpRequest.onreadystatechange = () => {
+                    /* readyState가 Done이고 응답 값이 200일 때, 받아온 response로 name과 age를 그려줌 */
+                    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                        if (httpRequest.status === 200) {
+                        var result = httpRequest.response;
+                          console.log(result);
+                        } else {
+                          alert('Request Error!');
+                        }
+                    }
+                  };
+                  /* Post 방식으로 요청 */
+	                httpRequest.open('POST', '/mscreening/getExcelParse', true);
+                  /* Response Type을 Json으로 사전 정의 */
+                  httpRequest.responseType = "json";
+                  /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
+                  httpRequest.setRequestHeader('Content-Type', 'application/json');
+                  httpRequest.setRequestHeader("X-CSRFToken",csrftoken);
+                  /* 정의된 서버에 Json 형식의 요청 Data를 포함하여 요청을 전송 */
+                  httpRequest.send(JSON.stringify(reqJson));
+              },
+              onerror: (response) => {
+                console.log(response.data)
+              },
+            },
+            patch: '/patch/',
+            revert: '/revert/',
+            fetch: '/fetch/?target=',
+            load: '/load/'
+        }
+      });
+      
+    }
+    
+    const language = {
+      'search': {
+        'placeholder': '검색...'
+      },
+      sort: {
+        sortAsc: '오름차순 정렬',
+        sortDesc: '내림차순 정렬'
+      },
+      'pagination': {
+        'previous': '이전',
+        'next': '다음',
+        of: '전체',
+        to: '~',
+        'showing': ' ',
+        'results': () => '건'
+      },
+      loading: '조회중입니다...',
+      noRecordsFound: '검색 결과가 없습니다.',
+      error: '오류가 발생했습니다.'
+    }
+
+    // 문제 관련 정보 테이블
+    if (document.getElementById("probDataList")) {
+      new gridjs
+        .Grid({
+          columns: [
+            {
+              name: '순번',
+              width: '10%'
+            }, {
+              name: '성분명',
+              width: '45%'
+            }, {
+              name: '중국사용불가',
+              width: '15%'
+            }, {
+              name: '최고역사량',
+              width: '15%'
+            },
+            {
+              name: '화장품안전기술',
+              width: '15%'
+            }
+          ],
+          pagination: {
+            limit: 5
+          },
+          style: {
+            td: {
+              'min-height': 'center'
+            }
+          },
+          sort: true,
+          language,
+          data: function () {
+            return new Promise(function (resolve) {
+              setTimeout(function () {
+                resolve([
+                ["1",	"정제수","","",""],
+                ["2",	"부틸렌글라이콜","","",""],
+                ["3",	"스쿠알란","","",""],
+                ["4",	"하이드로제네이티드에틸헥실올리베이트","","",""],
+                ["4", "하이드로제네이티드올리브오일불검화물","","",""],
+                ["5",	"나이아신아마이드","","",""],
+                ["6",	"1,2-헥산다이올","","",""],
+                ])
+              }, 2000);
+            });
+          }
+        })
+        .render(document.getElementById("probDataList"));
+    }
+
+    // DB 목록 및 업데이트 일자
+    if (document.getElementById("dbUpdateList")) {
+      new gridjs
+        .Grid({
+          columns: [
+            {
+              name: 'DB 명칭',
+              width: '40%'
+            }, {
+              name: '마지막 업데이트',
+              width: '20%'
+            }, {
+              name: 'DATA 보유량',
+              width: '20%',
+            }, {
+              name: '수시 업데이트 여부',
+              width: '20%'
+            }
+          ],
+          pagination: {
+            limit: 5
+          },
+          sort: true,
+          language,
+          data: function () {
+            return new Promise(function (resolve) {
+              setTimeout(function () {
+                resolve([
+                  [
+                    "한국화장품협회 성분사전", "2023-02-03", "1800건", "수시"
+                  ],
+                  [
+                    "2021년 중국화장품기사용 목록", "2015-01-01", "1200건", "X"
+                  ],
+                  [
+                    "2021년 중국화장품안전기술규범", "2015-01-01", "2342건", "X"
+                  ],
+                  [
+                    "원료사용목적", "2022-10-01", "1078건", "X"
+                  ],
+                  [
+                    "Global CITES", "2023-02-03", "2344건", "수시"
+                  ],
+                  [
+                    "중국위기동식물", "2023-02-03", "7335건", "수시"
+                  ],
+                  [
+                    "EWG 사이트", "2023-02-03", "2342건", "수시"
+                  ],
+                  [
+                    "화해", "2023-01-31", "987건", "분기별"
+                  ],
+                  [
+                    "화메이리슈싱", "2023-02-03", "766건", "수시"
+                  ],
+                  [
+                    "EU CI Number DB", "2023-02-03", "86556건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ]
+                ])
+              }, 2000);
+            });
+          }
+        })
+        .render(document.getElementById("dbUpdateList"));
+    }
+
+    // DB 검색기
+    if (document.getElementById("dbSearchList")) {
+      new gridjs
+        .Grid({
+          columns: [
+          {
+            name: 'DB 명칭',
+            width: '40%'
+          }, {
+            name: '마지막 업데이트',
+            width: '20%'
+          }, {
+            name: 'DATA 보유량',
+            width: '20%',
+          }, {
+            name: '수시 업데이트 여부',
+            width: '20%'
+          }
+          ],
+          pagination: {
+            limit: 15
+          },
+          sort: true,
+          search: true,
+          language,
+          data: function () {
+            return new Promise(function (resolve) {
+              setTimeout(function () {
+                resolve([
+                  [
+                    "한국화장품협회 성분사전", "2023-02-03", "1800건", "수시"
+                  ],
+                  [
+                    "2021년 중국화장품기사용 목록", "2015-01-01", "1200건", "X"
+                  ],
+                  [
+                    "2021년 중국화장품안전기술규범", "2015-01-01", "2342건", "X"
+                  ],
+                  [
+                    "원료사용목적", "2022-10-01", "1078건", "X"
+                  ],
+                  [
+                    "Global CITES", "2023-02-03", "2344건", "수시"
+                  ],
+                  [
+                    "중국위기동식물", "2023-02-03", "7335건", "수시"
+                  ],
+                  [
+                    "EWG 사이트", "2023-02-03", "2342건", "수시"
+                  ],
+                  [
+                    "화해", "2023-01-31", "987건", "분기별"
+                  ],
+                  [
+                    "화메이리슈싱", "2023-02-03", "766건", "수시"
+                  ],
+                  [
+                    "EU CI Number DB", "2023-02-03", "86556건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ],
+                  [
+                    "CIR 논문자료", "2023-02-03", "4022건", "수시"
+                  ]
+                ])
+              }, 2000);
+            });
+          }
+        })
+        .render(document.getElementById("dbSearchList"));
+    }
+
+    tippy('.tippy_test', {
+      content: '이것은 안내입니다.',
+      placement: 'bottom-end',
+      theme: 'light',
+    });
+
+  </script>
+
+  <!--Swiper slider js-->
+  <script src="{% static 'libs/swiper/swiper-bundle.min.js'%}"></script>
+
+{% endblock extra_js %}

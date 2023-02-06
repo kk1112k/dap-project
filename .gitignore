@@ -1,0 +1,9 @@
+.venv
+/static/
+/node_modules/
+*lock.json
+*.lock
+*__pycache__/
+*.pyc
+/filepond-temp-uploads/
+korea_material_dict_syllables.txt
